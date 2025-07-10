@@ -1,0 +1,116 @@
+1. Load and Preprocess Dataset
+Load CIFAR-10 using Keras: keras.datasets.cifar10
+
+Normalize image pixel values (0-255) to range [0, 1]
+
+One-hot encode labels for classification
+
+python
+Copy
+Edit
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+x_train = x_train / 255.0
+y_train = to_categorical(y_train, 10)
+2. Data Augmentation (Optional but recommended)
+Enhance training data using:
+
+Rotation
+
+Zoom
+
+Horizontal Flip
+
+Shift
+
+python
+Copy
+Edit
+ImageDataGenerator(
+    rotation_range=15,
+    width_shift_range=0.1,
+    height_shift_range=0.1,
+    horizontal_flip=True
+)
+3. CNN Model Architecture
+Typical architecture includes:
+
+Convolution → ReLU → MaxPooling
+
+Dropout and Batch Normalization
+
+Fully Connected (Dense) → Softmax
+
+python
+Copy
+Edit
+model = Sequential([
+  Conv2D(32, (3,3), activation='relu', input_shape=(32,32,3)),
+  MaxPooling2D(),
+  Dropout(0.25),
+  Flatten(),
+  Dense(128, activation='relu'),
+  Dense(10, activation='softmax')
+])
+4. Compile and Train Model
+Optimizer: Adam or SGD
+
+Loss: Categorical Crossentropy
+
+Metrics: Accuracy
+
+python
+Copy
+Edit
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=20, batch_size=64, validation_split=0.2)
+5. Evaluate the Model
+Use the test set to measure:
+
+Accuracy
+
+Confusion Matrix
+
+Precision / Recall / F1-score
+
+python
+Copy
+Edit
+test_loss, test_acc = model.evaluate(x_test, y_test)
+print("Test Accuracy:", test_acc)
+With scikit-learn, you can visualize:
+
+python
+Copy
+Edit
+from sklearn.metrics import classification_report
+print(classification_report(y_true, y_pred))
+6. Model Optimization
+Regularization: Dropout layers
+
+EarlyStopping: Avoid overfitting
+
+Hyperparameter tuning: Learning rate, epochs, batch size
+
+🎯 Expected Results
+Test Accuracy: ~75%–85%
+
+High precision/recall for most classes
+
+Enhanced performance with data augmentation and tuning
+
+📊 Visualization
+Loss vs Epoch
+
+Accuracy vs Epoch
+
+Confusion Matrix
+
+📌 Authors
+
+Name-Biplob deb nath
+Id-180103020054
+
+Dept. of CSE, North East University Bangladesh
